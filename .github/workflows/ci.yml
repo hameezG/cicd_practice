@@ -70,8 +70,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ghcr.io/hameezG/ci-practice:${{ github.sha }}
+            docker pull ghcr.io/hameezg/cicd_practice:${{ github.sha }}
             docker rm -f app || true
-            docker run -d --name app --restart unless-stopped -p 80:8000 ghcr.io/YOUR-GITHUB-USERNAME/ci-practice:${{ github.sha }}
+            docker run -d --name app --restart unless-stopped -p 80:8000 ghcr.io/hameezg/cicd_practice:${{ github.sha }}
             sleep 5
             curl -f http://localhost/health
