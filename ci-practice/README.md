@@ -1,0 +1,35 @@
+# CI Practice
+
+A small FastAPI app used to practice a CI pipeline with GitHub Actions.
+
+## What the pipeline does
+
+File: `.github/workflows/ci.yml`
+
+| Trigger | What runs |
+|---|---|
+| Pull request | Tests only |
+| Push to `main` | Tests, then build the Docker image and push it to GHCR |
+
+1. **test job**: installs dependencies and runs `pytest`.
+2. **build-and-push job**: runs only if tests pass and only on `main`. Builds the image and pushes it to
+   `ghcr.io/<owner>/<repo>`, tagged with the commit SHA (and `latest`).
+
+The pipeline uses the built-in `GITHUB_TOKEN`, so no secrets or cloud account are needed.
+
+## Run it locally
+
+```bash
+pip install -r requirements.txt
+pytest -v
+uvicorn main:app --reload
+```
+
+Or with Docker:
+
+```bash
+docker build -t ci-practice .
+docker run -p 8000:8000 ci-practice
+```
+
+Open http://localhost:8000/docs
